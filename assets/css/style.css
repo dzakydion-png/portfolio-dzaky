@@ -35,26 +35,21 @@ body {
 /* --- VIDEO BACKGROUND --- */
 .video-bg {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
+    top: 50%; left: 50%;
+    min-width: 100%; min-height: 100%;
     z-index: -2;
     transform: translateX(-50%) translateY(-50%);
-    object-fit: cover; /* Memastikan video tidak gepeng di HP */
+    object-fit: cover;
+    pointer-events: none; /* TAMBAHAN BARU: Paksa video ga bisa diklik */
 }
 
-
-/* OVERLAY GELAP (Agar teks terbaca di atas video) */
+/* OVERLAY GELAP */
 .video-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
     background: linear-gradient(to bottom, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95));
     z-index: -1;
-    pointer-events: none; /* PENTING: Agar overlay "tembus" saat diklik */
 }
 
 a { text-decoration: none; color: inherit; transition: var(--transition); }
@@ -138,8 +133,9 @@ ul { list-style: none; }
 
 /* --- Layout Wrapper --- */
 .wrapper { 
-    position: relative; /* Tambahkan ini */
-    z-index: 10; /* Tambahkan ini agar konten selalu di atas video */
+    position: relative; 
+    z-index: 999; /* TAMBAHAN BARU: Naikkan jadi 999 agar 100% di atas video */
+    pointer-events: auto; /* TAMBAHAN BARU: Paksa konten bisa diklik */
     max-width: 1200px; 
     margin: 0 auto; 
     display: grid; 
