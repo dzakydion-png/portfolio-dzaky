@@ -50,6 +50,7 @@ body {
     width: 100vw; height: 100vh;
     background: linear-gradient(to bottom, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95));
     z-index: -1;
+    pointer-events: none; /* Tambahkan baris ini */
 }
 
 a { text-decoration: none; color: inherit; transition: var(--transition); }
@@ -148,10 +149,22 @@ ul { list-style: none; }
 /* --- Kolom Kiri: Sticky Sidebar --- */
 .sidebar { position: sticky; top: 120px; }
 .profile-card { padding: 30px; display: flex; flex-direction: column; gap: 24px; border-width: 2px; }
-.img-box { width: 100%;
-    aspect-ratio: 1/1; /* Mengunci kotak agar tidak berubah tinggi saat gambar muncul */
-    background: #1e293b; /* Warna cadangan sebelum gambar muncul */ }
-.img-box::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(34, 211, 238, 0.1) 50%, transparent 50%); background-size: 100% 4px; opacity: 0.3; }
+.img-box { 
+    width: 100%;
+    aspect-ratio: 1/1; 
+    background: #1e293b; 
+    position: relative; /* Wajib: Mengunci efek ::after agar tidak keluar dari area gambar */
+    overflow: hidden; /* Tambahan: Merapikan efek agar tidak melewati batas gambar */
+}
+.img-box::after { 
+    content: ""; 
+    position: absolute; 
+    inset: 0; 
+    background: linear-gradient(rgba(34, 211, 238, 0.1) 50%, transparent 50%); 
+    background-size: 100% 4px; 
+    opacity: 0.3; 
+    pointer-events: none; /* Wajib: Memastikan efek scanline murni visual dan tidak memblokir klik */
+}
 .img-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%); }
 
 .name-tag h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; }

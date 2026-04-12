@@ -119,8 +119,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // PENTING: Jalankan saat scroll DAN saat window selesai dimuat total (termasuk video)
+// PENTING: Jalankan saat scroll dan resize
     window.addEventListener('scroll', updateActiveNavbar);
-    window.addEventListener('load', updateActiveNavbar); 
-    window.addEventListener('resize', updateActiveNavbar); // Jika layar di-resize (misal dari landscape ke portrait)
+    window.addEventListener('resize', updateActiveNavbar); // Jika layar di-resize
+
+    // Panggil langsung fungsinya sekali untuk inisialisasi awal saat halaman dimuat
+    updateActiveNavbar();
 });
