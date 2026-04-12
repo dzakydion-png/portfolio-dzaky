@@ -134,8 +134,8 @@ ul { list-style: none; }
 /* --- Layout Wrapper --- */
 .wrapper { 
     position: relative; 
-    z-index: 999; /* TAMBAHAN BARU: Naikkan jadi 999 agar 100% di atas video */
-    pointer-events: auto; /* TAMBAHAN BARU: Paksa konten bisa diklik */
+    z-index: 2;
+    pointer-events: auto;
     max-width: 1200px; 
     margin: 0 auto; 
     display: grid; 
