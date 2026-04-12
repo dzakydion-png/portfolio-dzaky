@@ -79,18 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 // LOGIKA LOOPING: Setelah selesai, tunggu beberapa detik lalu ulangi
-                setTimeout(() => {
+              setTimeout(() => {
                     codeContainer.innerHTML = ''; // Kosongkan layar
                     finalOutput = ''; // Reset output
-                    charIndex = 0; // Kembalikan index ke awal
-                    type(); // Mulai mengetik lagi
+                    charIndex = 0; // Kembalikan index 
+                    type(); // Mulai ngetik dari awal lagi
                 }, delayBeforeRestart);
             }
         }
         
-        // Mulai Mengetik pertama kali
-        type();
+        type(); // Panggilan pertama untuk menjalankan efek ngetik
     }
+    
     // ... (Kode Terminal Anda yang sebelumnya ada di sini) ...
 
 // --- 2. Scroll Spy Pro (Navbar Active State) ---

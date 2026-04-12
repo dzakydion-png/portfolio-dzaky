@@ -54,6 +54,7 @@ body {
     width: 100vw; height: 100vh;
     background: linear-gradient(to bottom, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95));
     z-index: -1;
+    pointer-events: none; /* PENTING: Agar overlay "tembus" saat diklik */
 }
 
 a { text-decoration: none; color: inherit; transition: var(--transition); }
@@ -136,7 +137,17 @@ ul { list-style: none; }
 }
 
 /* --- Layout Wrapper --- */
-.wrapper { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; gap: 50px; padding: 120px 24px 60px; align-items: flex-start; }
+.wrapper { 
+    position: relative; /* Tambahkan ini */
+    z-index: 10; /* Tambahkan ini agar konten selalu di atas video */
+    max-width: 1200px; 
+    margin: 0 auto; 
+    display: grid; 
+    grid-template-columns: 320px 1fr; 
+    gap: 50px; 
+    padding: 120px 24px 60px; 
+    align-items: flex-start; 
+}
 
 /* --- Kolom Kiri: Sticky Sidebar --- */
 .sidebar { position: sticky; top: 120px; }
