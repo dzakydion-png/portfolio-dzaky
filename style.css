@@ -1,0 +1,280 @@
+/* ==========================================================================
+   NEON DEVELOPER THEME - VIDEO BACKGROUND EDITION
+   ========================================================================== */
+
+:root {
+    --bg-dark: #020617; 
+    --surface: rgba(15, 23, 42, 0.7); 
+    --primary: #ffffff;
+    --secondary: #94a3b8;
+    
+    /* Neon Accents (Cyan untuk kontras dengan video hijau) */
+    --accent: #22d3ee; 
+    --accent-glow: rgba(34, 211, 238, 0.5);
+    
+    --border: rgba(255, 255, 255, 0.08);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+html { 
+    color-scheme: dark; 
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- VIDEO BACKGROUND --- */
+.video-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover; /* Memastikan video tidak gepeng di HP */
+}
+
+
+/* OVERLAY GELAP (Agar teks terbaca di atas video) */
+.video-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: linear-gradient(to bottom, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95));
+    z-index: -1;
+}
+
+a { text-decoration: none; color: inherit; transition: var(--transition); }
+ul { list-style: none; }
+
+/* --- Utility Classes --- */
+.glow-text { color: var(--accent); text-shadow: 0 0 10px var(--accent-glow), 0 0 20px rgba(34, 211, 238, 0.3); }
+
+.glass-panel {
+    background: var(--surface);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border); border-radius: 24px;
+}
+
+.neon-hover { transition: var(--transition); }
+.neon-hover:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow), inset 0 0 10px rgba(34, 211, 238, 0.1);
+    transform: translateY(-3px);
+}
+
+/* --- Floating Navbar --- */
+/* --- Floating Navbar --- */
+.navbar {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(10px);
+    padding: 10px 15px; border-radius: 100px; border: 1px solid var(--border);
+    display: flex; gap: 8px; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* --- TAMPILAN DASAR TOMBOL NAVBAR --- */
+.navbar a { 
+    position: relative;
+    color: var(--secondary); 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    padding: 10px 20px; 
+    border-radius: 50px; 
+    transition: var(--transition);
+    overflow: hidden; /* Menjaga efek glow tidak keluar batas */
+    z-index: 1;
+}
+
+/* --- EFEK WARNA TEKS SAAT DI-HOVER ATAU AKTIF --- */
+.navbar a:hover, 
+.navbar a.active { 
+    color: var(--accent); 
+    text-shadow: 0 0 10px var(--accent-glow); 
+}
+
+/* --- EFEK INNER GLOW SAAT MENU AKTIF --- */
+.navbar a.active {
+    background: rgba(34, 211, 238, 0.1);
+    box-shadow: inset 0 0 12px rgba(34, 211, 238, 0.2);
+}
+
+/* --- GARIS BAWAH NEON (Garis yang melebar dari tengah) --- */
+.navbar a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; 
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Garisnya memanjang jadi 60% dari lebar tombol saat di-hover/aktif */
+.navbar a:hover::after,
+.navbar a.active::after {
+    width: 60%; 
+}
+
+/* --- EFEK TACTILE CLICK (Seolah ditekan ke dalam) --- */
+.navbar a:active {
+    transform: scale(0.92);
+}
+
+/* --- Layout Wrapper --- */
+.wrapper { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 320px 1fr; gap: 50px; padding: 120px 24px 60px; align-items: flex-start; }
+
+/* --- Kolom Kiri: Sticky Sidebar --- */
+.sidebar { position: sticky; top: 120px; }
+.profile-card { padding: 30px; display: flex; flex-direction: column; gap: 24px; border-width: 2px; }
+.img-box { width: 100%;
+    aspect-ratio: 1/1; /* Mengunci kotak agar tidak berubah tinggi saat gambar muncul */
+    background: #1e293b; /* Warna cadangan sebelum gambar muncul */ }
+.img-box::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(34, 211, 238, 0.1) 50%, transparent 50%); background-size: 100% 4px; opacity: 0.3; }
+.img-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%); }
+
+.name-tag h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; }
+.badge-role { display: inline-block; padding: 6px 12px; background: rgba(34, 211, 238, 0.1); border: 1px solid var(--accent-glow); border-radius: 50px; font-size: 0.75rem; font-weight: 700; margin-top: 5px; }
+
+.contact-list a { display: flex; align-items: center; gap: 12px; color: var(--secondary); font-size: 0.85rem; margin-bottom: 15px; }
+.contact-list a:hover { color: var(--accent); }
+.contact-list i { color: var(--accent); font-size: 1rem; width: 20px; text-align: center; }
+
+.social-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.social-btn { height: 45px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.social-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+
+.btn-primary { width: 100%; padding: 16px; background: var(--primary); color: #000; text-align: center; border-radius: 12px; font-weight: 800; font-size: 0.9rem; display: flex; justify-content: center; align-items: center; gap: 10px; }
+.btn-primary:hover { background: var(--accent); color: #fff; box-shadow: 0 0 25px var(--accent-glow); }
+
+/* --- Kolom Kanan: Main Content --- */
+.main-content { display: flex; flex-direction: column; gap: 100px; }
+.section-header { display: flex; align-items: center; gap: 12px; color: var(--secondary); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px; }
+.section-header i { color: var(--accent); font-size: 1.2rem; }
+
+/* HERO SECTION */
+.status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border: 1px solid var(--accent); border-radius: 50px; font-size: 0.8rem; color: var(--accent); margin-bottom: 20px; box-shadow: 0 0 10px var(--accent-glow); background: rgba(34, 211, 238, 0.05); }
+.dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
+.pulse-anim { animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+
+.hero h2 { font-size: 4.2rem; font-weight: 900; line-height: 1; letter-spacing: -3px; margin-bottom: 25px; }
+.hero p { font-size: 1.15rem; color: var(--secondary); max-width: 600px; margin-bottom: 40px; }
+
+/* TERMINAL WINDOW */
+.terminal-window { background: rgba(1, 4, 9, 0.8); backdrop-filter: blur(5px); border-radius: 12px; overflow: hidden; border: 1px solid #30363d; box-shadow: 0 20px 40px rgba(0,0,0,0.5); max-width: 650px; }
+.terminal-header { background: rgba(22, 27, 34, 0.9); padding: 12px 18px; display: flex; align-items: center; gap: 8px; position: relative; border-bottom: 1px solid #30363d; }
+.terminal-header .btn { width: 12px; height: 12px; border-radius: 50%; }
+.btn.red { background: #ff5f56; } .btn.yellow { background: #ffbd2e; } .btn.green { background: #27c93f; }
+.terminal-title { position: absolute; width: 100%; text-align: center; left: 0; color: #8b949e; font-size: 0.75rem; font-family: monospace; }
+.terminal-body { padding: 25px; font-family: 'Courier New', monospace; font-size: 0.85rem; color: #e6edf3; min-height: 160px; }
+
+/* SKILLS BADGES */
+.skills-container { display: flex; flex-wrap: wrap; gap: 12px; }
+.skill-badge { padding: 12px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+.skill-badge i { color: var(--accent); font-size: 1.1rem; }
+.skill-badge:hover { background: rgba(34, 211, 238, 0.05); border-color: var(--accent-glow); color: var(--accent); transform: scale(1.05); }
+
+/* PROJECTS */
+.bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.project-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.project-img { width: 100%;
+    height: 200px; /* Kunci tingginya */
+    object-fit: cover; }
+.project-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+.proj-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.proj-header h3 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+.github-link { font-size: 1.4rem; color: var(--secondary); }
+.github-link:hover { color: var(--accent); transform: scale(1.1); }
+.project-content p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span { padding: 6px 12px; background: rgba(34, 211, 238, 0.08); color: var(--accent); border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
+
+/* TIMELINE */
+.timeline { padding: 30px; }
+.timeline-item { padding-left: 25px; border-left: 2px solid var(--border); position: relative; padding-bottom: 40px; }
+.timeline-item:last-child { padding-bottom: 0; border-left-color: transparent; }
+.timeline-item::before { content: ""; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--bg-dark); border: 2px solid var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
+.timeline-item .date { font-size: 0.75rem; color: var(--accent); font-weight: 700; margin-bottom: 8px; display: block; }
+.timeline-item h4 { font-size: 1.3rem; font-weight: 800; margin-bottom: 5px; }
+.timeline-item h5 { color: var(--secondary); font-size: 0.9rem; margin-bottom: 15px; font-weight: 600; }
+.timeline-item p { color: var(--text-secondary); font-size: 0.9rem; }
+
+/* CERTIFICATIONS */
+.cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; }
+.cert-card { padding: 20px; display: flex; align-items: center; gap: 15px; }
+.cert-card i { font-size: 2rem; color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+.cert-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
+.cert-card p { font-size: 0.75rem; color: var(--secondary); }
+
+.footer { text-align: center; padding-top: 50px; color: var(--secondary); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 50px; }
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE (FLEKSIBILITAS TOTAL)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .wrapper {
+        grid-template-columns: 1fr; /* Memaksa tata letak menjadi 1 baris ke bawah */
+        padding: 100px 20px 40px;
+        gap: 40px;
+    }
+    
+    .sidebar { position: relative; top: 0; width: 100%; } /* Sidebar tidak lagi sticky di HP */
+    
+    .navbar { width: 90%; justify-content: space-around; padding: 8px; }
+    .navbar a { padding: 8px 12px; font-size: 0.8rem; }
+    
+    .hero h2 { font-size: 2.8rem; }
+    
+    .bento-grid { grid-template-columns: 1fr; /* Kartu project berjejer ke bawah */ }
+    
+    .terminal-window { max-width: 100%; }
+}
+/* ==========================================================================
+   OFFICIAL BRAND COLORS UNTUK ICON
+   ========================================================================== */
+
+/* --- 1. Social Media & Contact --- */
+.contact-list a i.fa-whatsapp, 
+.social-row .social-btn i.fa-whatsapp { color: #25D366; text-shadow: 0 0 10px rgba(37, 211, 102, 0.4); }
+
+.social-row .social-btn i.fa-linkedin-in { color: #0A66C2; text-shadow: 0 0 10px rgba(10, 102, 194, 0.4); }
+.social-row .social-btn i.fa-github { color: #ffffff; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); }
+
+.contact-list a i.fa-map-marker-alt { color: #EA4335; text-shadow: 0 0 10px rgba(234, 67, 53, 0.4); } /* Merah Google Maps */
+.contact-list a i.fa-envelope { color: #EA4335; text-shadow: 0 0 10px rgba(234, 67, 53, 0.4); } /* Merah Gmail */
+
+/* Pastikan icon jadi hitam saat tombol social di-hover agar tidak bertabrakan dengan background cyan */
+.social-row .social-btn:hover i { color: #000 !important; text-shadow: none !important; }
+
+
+/* --- 2. Skills Badge --- */
+.skills-container .skill-badge i.fa-js { color: #F7DF1E; text-shadow: 0 0 10px rgba(247, 223, 30, 0.4); }
+.skills-container .skill-badge i.fa-react { color: #61DAFB; text-shadow: 0 0 10px rgba(97, 218, 251, 0.4); }
+.skills-container .skill-badge i.fa-node-js { color: #339933; text-shadow: 0 0 10px rgba(51, 153, 51, 0.4); }
+.skills-container .skill-badge i.fa-server { color: #E0234E; text-shadow: 0 0 10px rgba(224, 35, 78, 0.4); } /* Merah NestJS */
+.skills-container .skill-badge i.fa-database { color: #336791; text-shadow: 0 0 10px rgba(51, 103, 145, 0.4); } /* Biru PostgreSQL */
+.skills-container .skill-badge i.fa-robot { color: #8E75B2; text-shadow: 0 0 10px rgba(142, 117, 178, 0.4); } /* Ungu Gemini */
+.skills-container .skill-badge i.fa-git-alt { color: #F05032; text-shadow: 0 0 10px rgba(240, 80, 50, 0.4); } /* Oranye Git */
+.skills-container .skill-badge i.fa-project-diagram { color: #ffffff; } 
+
+
+/* --- 3. Certifications --- */
+.cert-grid .cert-card i.fa-hackerrank { color: #00EA64; text-shadow: 0 0 10px rgba(0, 234, 100, 0.4); }
+.cert-grid .cert-card i.fa-puzzle-piece { color: #FFA116; text-shadow: 0 0 10px rgba(255, 161, 22, 0.4); }
+.cert-grid .cert-card i.fa-js { color: #F7DF1E; text-shadow: 0 0 10px rgba(247, 223, 30, 0.4); }
+.cert-grid .cert-card i.fa-react { color: #61DAFB; text-shadow: 0 0 10px rgba(97, 218, 251, 0.4); }
