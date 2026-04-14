@@ -87,27 +87,33 @@ ul { list-style: none; }
     color: var(--secondary); 
     font-size: 0.85rem; 
     font-weight: 600; 
-    padding: 10px 20px; 
+    padding: 10px 22px; /* Diberi ruang sedikit lebih lega biar efek glow tidak terpotong */
     border-radius: 50px; 
-    transition: var(--transition);
-    overflow: hidden; /* Menjaga efek glow tidak keluar batas */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Transisi lebih lambat dan smooth (premium feel) */
+    overflow: hidden; 
     z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* --- EFEK WARNA TEKS SAAT DI-HOVER ATAU AKTIF --- */
-.navbar a:hover, 
-.navbar a.active { 
+/* --- EFEK 1: HOVER (Kursor Diarahkan) --- */
+.navbar a:hover {
+    color: var(--primary); /* Teks jadi putih terang, bukan cyan, biar elegan */
+    text-shadow: 0 0 15px var(--accent-glow), 0 0 30px var(--accent-glow);
+    transform: translateY(-2px); /* Efek melayang ringan ke atas */
+    background: rgba(34, 211, 238, 0.08); /* Latar belakang nyala cyan sangat tipis */
+}
+
+/* --- EFEK 2: ACTIVE (Menu Sedang Dilihat/Scroll Spy) --- */
+.navbar a.active {
     color: var(--accent); 
     text-shadow: 0 0 10px var(--accent-glow); 
+    background: rgba(34, 211, 238, 0.15); /* Background cyan sedikit lebih tebal dari hover */
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.2), inset 0 0 12px rgba(34, 211, 238, 0.3); /* Outer & Inner glow nyala */
 }
 
-/* --- EFEK INNER GLOW SAAT MENU AKTIF --- */
-.navbar a.active {
-    background: rgba(34, 211, 238, 0.1);
-    box-shadow: inset 0 0 12px rgba(34, 211, 238, 0.2);
-}
-
-/* --- GARIS BAWAH NEON (Garis yang melebar dari tengah) --- */
+/* --- EFEK 3: GARIS BAWAH NEON (Swipe dari Tengah) --- */
 .navbar a::after {
     content: '';
     position: absolute;
@@ -118,18 +124,23 @@ ul { list-style: none; }
     height: 2px;
     background: var(--accent);
     box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0; /* Sembunyikan default biar transisi munculnya lebih halus */
 }
 
-/* Garisnya memanjang jadi 60% dari lebar tombol saat di-hover/aktif */
+/* Munculkan garis saat di-hover atau aktif */
 .navbar a:hover::after,
 .navbar a.active::after {
-    width: 60%; 
+    width: 70%; /* Lebih panjang sedikit agar proporsional dengan teks */
+    opacity: 1;
 }
 
-/* --- EFEK TACTILE CLICK (Seolah ditekan ke dalam) --- */
+/* --- EFEK 4: CLICK (Tombol Ditekan) --- */
 .navbar a:active {
-    transform: scale(0.92);
+    transform: scale(0.9) translateY(0); /* Efek tactile: menyusut drastis layaknya tombol fisik ditekan */
+    background: rgba(34, 211, 238, 0.4); /* Nyala kilat (flash) lebih terang saat diklik */
+    box-shadow: 0 0 25px var(--accent), inset 0 0 20px var(--accent); /* Ledakan neon ke luar dan ke dalam */
+    transition: all 0.05s; /* Transisi dibuat sangat cepat khusus saat diklik agar terasa 'snappy' */
 }
 
 /* --- Layout Wrapper --- */
@@ -298,3 +309,20 @@ ul { list-style: none; }
 .cert-grid .cert-card i.fa-puzzle-piece { color: #FFA116; text-shadow: 0 0 10px rgba(255, 161, 22, 0.4); }
 .cert-grid .cert-card i.fa-js { color: #F7DF1E; text-shadow: 0 0 10px rgba(247, 223, 30, 0.4); }
 .cert-grid .cert-card i.fa-react { color: #61DAFB; text-shadow: 0 0 10px rgba(97, 218, 251, 0.4); }
+
+/* ==========================================================================
+   EFEK REVEAL HIGH-PERFORMANCE (TANPA BLUR)
+   ========================================================================== */
+
+.reveal-section {
+    opacity: 0;
+    transform: translateY(30px); /* Jarak geser diperkecil agar lebih natural */
+    /* Hanya animasikan opacity dan transform karena ini yang paling ringan untuk GPU */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+    will-change: opacity, transform;
+}
+
+.reveal-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

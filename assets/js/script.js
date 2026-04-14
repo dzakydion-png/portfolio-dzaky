@@ -125,4 +125,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Panggil langsung fungsinya sekali untuk inisialisasi awal saat halaman dimuat
     updateActiveNavbar();
+    
+
+    // --- 3. Scroll Reveal (High Performance Mode) ---
+    sections.forEach(section => {
+        section.classList.add('reveal-section');
+    });
+
+    const revealOptions = {
+        root: null, 
+        threshold: 0.1, // Cukup 10% terlihat langsung mulai, biar gak kerasa delay
+        rootMargin: "0px 0px -20px 0px" 
+    };
+
+    const sectionObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                
+                // PENTING: Hentikan sensor setelah section muncul (Animasi 1x saja)
+                // Ini akan menghemat resource CPU secara drastis saat user scroll naik turun
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
 });
