@@ -153,4 +153,98 @@ document.addEventListener('DOMContentLoaded', () => {
     sections.forEach(section => {
         sectionObserver.observe(section);
     });
+
+    // --- 4. Particle Cursor Canvas (Neon Trail) ---
+    function initParticleCursor() {
+        const canvas = document.getElementById('particleCanvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const prefersReducedMotion =
+            window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        const particlesArray = [];
+        const maxParticles = 260;
+        const spawnPerMove = 7;
+        let dpr = 1;
+
+        function resizeCanvas() {
+            dpr = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(window.innerWidth * dpr);
+            canvas.height = Math.floor(window.innerHeight * dpr);
+            canvas.style.width = `${window.innerWidth}px`;
+            canvas.style.height = `${window.innerHeight}px`;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+
+                // Tema warna Cyberpunk (Pink/Ungu Neon)
+                const hue = Math.random() * 40 + 280; // Range ungu ke pink
+                this.color = `hsla(${hue}, 100%, 50%, 1)`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 10) this.size -= 0.5;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color;
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        window.addEventListener(
+            'pointermove',
+            (event) => {
+                const x = event.clientX;
+                const y = event.clientY;
+
+                for (let i = 0; i < spawnPerMove; i++) {
+                    if (particlesArray.length >= maxParticles) particlesArray.shift();
+                    particlesArray.push(new Particle(x, y));
+                }
+            },
+            { passive: true }
+        );
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+    }
+
+    initParticleCursor();
 });
